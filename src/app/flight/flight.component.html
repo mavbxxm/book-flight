@@ -1,0 +1,101 @@
+<h1>Book A Flight!</h1>
+<form [formGroup]="bookForm" (ngSubmit)="onSubmit(bookForm.value)">
+
+    <div class="container">
+        <div class="mb-4">
+            <label class="form-label">FullName : </label>
+            <span style="color: red" *ngIf="bookForm.get('fullName')?.errors?.['required']">*required</span>
+            <input class="form-control" formControlName="fullName" placeholder="Full Name">
+        </div>
+
+
+        <div class="mb-4">
+            <div class="row">
+                <div class="col">
+                    <label class="form-label">From</label>
+                    <span style="color: red" *ngIf="bookForm.get('from')?.errors?.['required']">*required</span>
+                    <select class="form-select" formControlName="from">
+                      <option value="null">-</option>
+                      <option *ngFor="let menu of country">
+                      {{menu.name}}
+                      </option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label class="form-label">To</label>
+                    <span style="color: red" *ngIf="bookForm.get('to')?.errors?.['required']">*required</span>
+                    <select class="form-select" formControlName="to">
+                    <option value="null">-</option>
+                    <option *ngFor="let menu of country">
+                    {{menu.name}}
+                    </option>
+                    </select>
+                </div>
+            </div>
+        </div><br>
+
+        <div class="row mb-5">
+            <div class="col ">
+                <label class="form-label">Trip Type</label>
+                <span style="color: red" *ngIf="bookForm.get('type')?.errors?.['required']">*required</span><br/>
+                <input name="trip" type="radio" formControlName="type" value="One way"> One way
+                <input name="trip" type="radio" formControlName="type" value="Return"> Return
+            </div>
+            <div class="col">
+
+                <label class="form-label">Departure :</label>
+                <span style="color: red" *ngIf="bookForm.get('departure')?.errors?.['required']">*required</span>
+                <input class="form-control" type="date" id="dedate" min="{{StartDate|date:'yyyy-dd-MM'}}" formControlName="departure">
+
+            </div>
+            <div class="col">
+                <label class="form-label">Arrival :</label>
+                <span style="color: red" *ngIf="bookForm.get('type')?.value == 'Return'">*required</span>
+                <input class="form-control" type="date" min="{{bookForm.get('departure')?.value}}" formControlName="arrival">
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <label for="adults">Adults</label>
+            <input class="form-control" type="number" formControlName="adults" value="adults">
+        </div>
+        <div class="col">
+            <label for="children">Children</label>
+            <input class="form-control" type="number" formControlName="children" value="children">
+        </div>
+        <div class="col"><label for="infants">Infants</label>
+            <input class="form-control" type="number" formControlName="infants" value="infants"></div>
+
+
+    </div>
+
+    <div>
+        <button class="btn btn-primary col-12 btn-lg" [disabled]="bookForm.invalid" type="submit">Submit</button>
+    </div>
+</form><br>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Full Name</th>
+            <th>Departure</th>
+            <th>Arrival</th>
+            <th>Adults</th>
+            <th>Children</th>
+            <th>Infants</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let b of flights">
+            <td>{{ b.fullName }}</td>
+            <td>{{ b.from }}</td>
+            <td>{{ b.to }}</td>
+            <td>{{ b.adults }}</td>
+            <td>{{ b.children }}</td>
+            <td>{{ b.infants }}</td>
+        </tr>
+    </tbody>
+
+
+</table>
